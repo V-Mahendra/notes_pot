@@ -10,7 +10,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/notes", NotesRoute);
 
 // ---------------------------------------   Winston Log Error ----------------
 
@@ -27,12 +26,18 @@ const logger = winston.createLogger({
   ],
 });
 
+
+
+
+// -------------------------------------------  Route  ---------------
+app.use("/notes", NotesRoute);
+
 // ----------------------------------------Database Connection -----------------------
 
 mongoose
-  .connect(process.env.MONGO_URL, { useNewurlParser: true })
+  .connect(process.env.MONGO_URL, { useNewUrlParser: true })
   .then(() => {
-    logger.info(`Database Connected`);
+    logger.info(`Connected to mongoDB Atlas`);
   })
   .catch((error) => {
     logger.info(`something went wrong `, error);
@@ -40,7 +45,7 @@ mongoose
 
 // --------------------- PORT Conntect -------------------------
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   logger.info(`server is running on port ${PORT}`);
