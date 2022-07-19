@@ -4,12 +4,12 @@ const winston = require("winston");
 const express = require("express");
 const mongoose = require("mongoose");
 const NotesRoute = require("./routers/notes");
-const cors = require("cors")
+// const cors = require("cors")
 
 const app = express();
 
+// app.use(cors())
 app.use(express.json());
-app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 
 
@@ -39,15 +39,13 @@ app.use("/notes", NotesRoute);
 mongoose
   .connect(process.env.MONGO_URL, { useNewUrlParser: true })
   .then(() => {
-    logger.info(`Connected to mongoDB Atlas`);
+    logger.info(`connected to mongoDb Atlas`);
   })
   .catch((error) => {
-    logger.info(`something went wrong `, error);
+    logger.error(`something went wrong`, error);
   });
 
-// --------------------- PORT Conntect -------------------------
-
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   logger.info(`server is running on port ${PORT}`);
